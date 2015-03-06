@@ -5,7 +5,6 @@ function SVGNodeContainer(node, _native) {
     this.src = node;
     this.image = null;
     var self = this;
-	var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
 
     this.promise = _native ? new Promise(function(resolve, reject) {
         self.image = new Image();
@@ -14,8 +13,9 @@ function SVGNodeContainer(node, _native) {
 		var outer = document.createElement('div');
 		node = _addStylesToSVG(node);
 		outer.appendChild(node);
-		node = doctype + outer.innerHTML;
-        self.image.src = "data:image/svg+xml;base64," + window.btoa(unescape(encodeURIComponent(node)));
+		node = outer.innerHTML;
+        self.image.src = "data:image/svg+xml," + node;
+		window.open(self.image.src);
         if (self.image.complete === true) {
             resolve(self.image);
         }
